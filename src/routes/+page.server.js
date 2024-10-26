@@ -18,7 +18,7 @@ export const _groqCall = async (carreer, checked) => {
 			{
 				role: 'system',
 				content:
-					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. They will provide the career they want, and the level they are currently at.\nRespond in the form of a json file containing a 2d array. The first demensions of the array should be advice for short advice in the short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years). The 2nd dimension should be the advice\nDo not include any information regarding the prompt, only the steps the user should take.'
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and the level they are currently at.\nRespond in the form of a json file with three seperate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided.'
 			},
 			// Set a user message for the assistant to respond to.
 			{
@@ -41,7 +41,7 @@ export const _groqCall = async (carreer, checked) => {
 
 		// The maximum number of tokens to generate. Requests can use up to
 		// 2048 tokens shared between prompt and completion.
-		max_tokens: 2048,
+		max_tokens: 4096,
 
 		// Controls diversity via nucleus sampling: 0.5 means half of all
 		// likelihood-weighted options are considered.
