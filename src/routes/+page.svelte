@@ -1,3 +1,36 @@
+<script>
+	import { enhance } from '$app/forms';
+
+	/**
+	 * @type {any}
+	 */
+	let promptInput = '';
+	let selectedCheckbox = '';
+
+	let beginnerChecked = false,
+		intermediateChecked = false,
+		professionalChecked = false;
+
+	/**
+	 * @param {string} checkbox
+	 */
+	function checkboxChanged(checkbox) {
+		if (checkbox == 'beginner') {
+			beginnerChecked = true;
+			intermediateChecked = false;
+			professionalChecked = false;
+		} else if (checkbox == 'intermediate') {
+			beginnerChecked = false;
+			intermediateChecked = true;
+			professionalChecked = false;
+		} else if (checkbox == 'professional') {
+			beginnerChecked = false;
+			intermediateChecked = false;
+			professionalChecked = true;
+		}
+	}
+</script>
+
 <div>
 	<!-- Header -->
 	<div class="flex flex-row items-center">
@@ -8,23 +41,64 @@
 	<div class="grid justify-center justify-items-center gap-4">
 		<!-- Prompt input -->
 		<div>
-			<form id="submitPromptForm" action="?/submitPrompt" method="post">
+			<form
+				use:enhance={({ formData }) => {
+					formData.append('promptInput', promptInput);
+
+					if (beginnerChecked) formData.append('checked', 'beginner');
+					else if (intermediateChecked) formData.append('checked', 'intermediate');
+					else if (professionalChecked) formData.append('checked', 'professional');
+				}}
+				id="submitPromptForm"
+				action="?/submitPrompt"
+				method="post"
+			>
 				<label for="promptInput"> </label>
-				<input class="twinput focus:shadow-outline" id="promptInput" placeholder="i just lost my dawg" type="text" />
+				<input
+					bind:value={promptInput}
+					class="twinput focus:shadow-outline"
+					id="promptInput"
+					placeholder="i just lost my dawg"
+					type="text"
+				/>
 			</form>
 		</div>
 		<!-- Checkboxes -->
 		<div class="grid">
 			<div>
-				<input type="checkbox" name="beginner" id="beginner" />
+				<input
+					on:change={() => {
+						checkboxChanged('beginner');
+					}}
+					checked={beginnerChecked}
+					type="checkbox"
+					name="beginner"
+					id="beginner"
+				/>
 				<label class="text-2xl" for="beginner">Beginner</label>
 			</div>
 			<div>
-				<input type="checkbox" name="intermediate" id="intermediate" />
+				<input
+					on:change={() => {
+						checkboxChanged('intermediate');
+					}}
+					checked={intermediateChecked}
+					type="checkbox"
+					name="intermediate"
+					id="intermediate"
+				/>
 				<label class="text-2xl" for="intermediate">Intermediate</label>
 			</div>
 			<div>
-				<input type="checkbox" name="professional" id="professional" />
+				<input
+					on:change={() => {
+						checkboxChanged('professional');
+					}}
+					checked={professionalChecked}
+					type="checkbox"
+					name="professional"
+					id="professional"
+				/>
 				<label class="text-2xl" for="professional">Professional</label>
 			</div>
 		</div>
