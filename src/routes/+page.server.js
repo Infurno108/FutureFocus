@@ -56,16 +56,15 @@ export const _groqCall = async (carreer) => {
 };
 
 export const actions = {
-    submitPrompt: async ({request}) => {
-        const data = await request.formData();
-        const promptInput = data.get('promptInput');
-        const checked = data.get('checked');
+	submitPrompt: async ({ request }) => {
+		const data = await request.formData();
+		const promptInput = data.get('promptInput');
+		const checked = data.get('checked');
 
-        console.log(promptInput);
-        console.log(checked);
+		console.log(promptInput);
+		console.log(checked);
 
-        const response = await getGroqChatCompletion();
-        console.log(response.choices[0].message.content);
-    }
-}
-
+		const response = await _groqCall(promptInput);
+		console.log(response.choices[0].message.content);
+	}
+};
