@@ -1,20 +1,19 @@
 <div>
-    <!-- Header -->
+	<!-- Header -->
 	<div class="flex flex-row items-center">
 		<img class="w-28" src="/favicon.png" alt="FutureFocus logo" />
 		<p class="text-6xl">FutureFocus</p>
 	</div>
-    <!-- Main page content -->
+	<!-- Main page content -->
 	<div class="grid justify-center justify-items-center gap-4">
-        <!-- Prompt input -->
+		<!-- Prompt input -->
 		<div>
 			<form id="submitPromptForm" action="?/submitPrompt" method="post">
-				<label for="">
-					<input class="twinput focus:shadow-outline" placeholder="i just lost my dawg" type="text" />
-				</label>
+				<label for="promptInput"> </label>
+				<input class="twinput focus:shadow-outline" id="promptInput" placeholder="i just lost my dawg" type="text" />
 			</form>
 		</div>
-        <!-- Checkboxes -->
+		<!-- Checkboxes -->
 		<div class="grid">
 			<div>
 				<input type="checkbox" name="beginner" id="beginner" />
@@ -29,7 +28,7 @@
 				<label class="text-2xl" for="professional">Professional</label>
 			</div>
 		</div>
-        <!-- Submit button -->
+		<!-- Submit button -->
 		<div>
 			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
 		</div>
