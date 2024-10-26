@@ -1,7 +1,10 @@
 import Groq from 'groq-sdk';
-import fs from 'fs';
 
-const groq = new Groq({ apiKey: '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' });
+import fs from "fs";
+
+const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
+console.log(config)
+const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
 export const _groqCall = async (carreer, checked) => {
 	return groq.chat.completions.create({
