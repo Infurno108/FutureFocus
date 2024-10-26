@@ -3,26 +3,26 @@ import fs from 'fs';
 
 const groq = new Groq({ apiKey: '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' });
 
-export const getGroqChatCompletion = async () => {
-    return groq.chat.completions.create({
-        //
-        // Required parameters
-        //
-        messages: [
-            // Set an optional system message. This sets the behavior of the
-            // assistant and can be used to provide specific instructions for
-            // how it should behave throughout the conversation.
-            {
-                role: 'system',
-                content:
-                    'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. Split up the steps into short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years). Between each step, put a newline and the character ★'
-            },
-            // Set a user message for the assistant to respond to.
-            {
-                role: 'user',
-                content: 'Software Engineer, intermediate level'
-            }
-        ],
+export const _groqCall = async (carreer, checked) => {
+	return groq.chat.completions.create({
+		//
+		// Required parameters
+		//
+		messages: [
+			// Set an optional system message. This sets the behavior of the
+			// assistant and can be used to provide specific instructions for
+			// how it should behave throughout the conversation.
+			{
+				role: 'system',
+				content:
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. They will provide the career they want, and the level they are currently at.\nSplit up the steps into three categories short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years) in that order.\nBetween each step put a a •, and between each category put the character ★'
+			},
+			// Set a user message for the assistant to respond to.
+			{
+				role: 'user',
+				content: carreer + ', ' + checked + 'level'
+			}
+		],
 
         // The language model which will generate the completion.
         model: 'llama3-8b-8192',
@@ -56,19 +56,19 @@ export const getGroqChatCompletion = async () => {
 };
 
 export const actions = {
-    submitPrompt: async ({ request }) => {
-        const data = await request.formData();
-        const promptInput = data.get('promptInput');
-        const checked = data.get('checked');
+	submitPrompt: async ({ request }) => {
+		const data = await request.formData();
+		const promptInput = data.get('promptInput');
+		const checked = data.get('checked');
 
-        console.log(promptInput);
-        console.log(checked);
+		console.log(promptInput);
+		console.log(checked);
 
-        const response = await getGroqChatCompletion();
+		const response = await _groqCall(promptInput, checked);
+    
         let message = response.choices[0].message.content;
 
         console.log(message);
 
         return { success: true, message: message };
-    }
-}
+};
