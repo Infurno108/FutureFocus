@@ -7,6 +7,9 @@ export const _groqCall = async (carreer, checked) => {
 	return groq.chat.completions.create({
 		//
 		// Required parameters
+		response_format: {
+			type: 'json_object'
+		},
 		//
 		messages: [
 			// Set an optional system message. This sets the behavior of the
@@ -15,7 +18,7 @@ export const _groqCall = async (carreer, checked) => {
 			{
 				role: 'system',
 				content:
-					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. They will provide the career they want, and the level they are currently at.\nSplit up the steps into three categories short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years) in that order.\nBetween each step put a a •, and between each category put the character ★\nDo not include any information regarding the prompt, only the steps the user should take.'
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. They will provide the career they want, and the level they are currently at.\nRespond in the form of a json file containing a 2d array. The first demensions of the array should be advice for short advice in the short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years). The 2nd dimension should be the advice\nDo not include any information regarding the prompt, only the steps the user should take.'
 			},
 			// Set a user message for the assistant to respond to.
 			{
@@ -38,7 +41,7 @@ export const _groqCall = async (carreer, checked) => {
 
 		// The maximum number of tokens to generate. Requests can use up to
 		// 2048 tokens shared between prompt and completion.
-		max_tokens: 1024,
+		max_tokens: 2048,
 
 		// Controls diversity via nucleus sampling: 0.5 means half of all
 		// likelihood-weighted options are considered.
@@ -54,8 +57,6 @@ export const _groqCall = async (carreer, checked) => {
 		stream: false
 	});
 };
-
-function splitResponse(response) {}
 
 export const actions = {
 	submitPrompt: async ({ request }) => {
