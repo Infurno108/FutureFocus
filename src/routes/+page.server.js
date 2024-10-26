@@ -24,35 +24,35 @@ export const _groqCall = async (carreer, checked) => {
 			}
 		],
 
-		// The language model which will generate the completion.
-		model: 'llama3-8b-8192',
+        // The language model which will generate the completion.
+        model: 'llama3-8b-8192',
 
-		//
-		// Optional parameters
-		//
+        //
+        // Optional parameters
+        //
 
-		// Controls randomness: lowering results in less random completions.
-		// As the temperature approaches zero, the model will become deterministic
-		// and repetitive.
-		temperature: 1,
+        // Controls randomness: lowering results in less random completions.
+        // As the temperature approaches zero, the model will become deterministic
+        // and repetitive.
+        temperature: 1,
 
-		// The maximum number of tokens to generate. Requests can use up to
-		// 2048 tokens shared between prompt and completion.
-		max_tokens: 1024,
+        // The maximum number of tokens to generate. Requests can use up to
+        // 2048 tokens shared between prompt and completion.
+        max_tokens: 1024,
 
-		// Controls diversity via nucleus sampling: 0.5 means half of all
-		// likelihood-weighted options are considered.
-		top_p: 1,
+        // Controls diversity via nucleus sampling: 0.5 means half of all
+        // likelihood-weighted options are considered.
+        top_p: 1,
 
-		// A stop sequence is a predefined or user-specified text string that
-		// signals an AI to stop generating content, ensuring its responses
-		// remain focused and concise. Examples include punctuation marks and
-		// markers like "[end]".
-		stop: null,
+        // A stop sequence is a predefined or user-specified text string that
+        // signals an AI to stop generating content, ensuring its responses
+        // remain focused and concise. Examples include punctuation marks and
+        // markers like "[end]".
+        stop: null,
 
-		// If set, partial message deltas will be sent.
-		stream: false
-	});
+        // If set, partial message deltas will be sent.
+        stream: false
+    });
 };
 
 export const actions = {
@@ -65,6 +65,10 @@ export const actions = {
 		console.log(checked);
 
 		const response = await _groqCall(promptInput, checked);
-		console.log(response.choices[0].message.content);
-	}
+    
+        let message = response.choices[0].message.content;
+
+        console.log(message);
+
+        return { success: true, message: message };
 };
