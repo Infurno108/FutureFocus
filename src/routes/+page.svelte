@@ -7,11 +7,7 @@
 		<div>
 			<form id="submitPromptForm" action="?/submitPrompt" method="post">
 				<label for="">
-					<input
-						class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-						placeholder="i just lost my dawg"
-						type="text"
-					/>
+					<input class="twinput focus:shadow-outline" placeholder="i just lost my dawg" type="text" />
 				</label>
 			</form>
 		</div>
@@ -30,11 +26,17 @@
 			</div>
 		</div>
 		<div>
-			<button
-				class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-				type="submit"
-				form="submitPromptForm">Generate</button
-			>
+			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
 		</div>
 	</div>
 </div>
+
+<style lang="postcss">
+	.twinput {
+		@apply w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none;
+	}
+
+	.twbutton {
+		@apply rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700;
+	}
+</style>
