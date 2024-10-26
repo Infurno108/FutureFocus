@@ -1,9 +1,12 @@
 <div>
+    <!-- Header -->
 	<div class="flex flex-row items-center">
 		<img class="w-28" src="/favicon.png" alt="FutureFocus logo" />
 		<p class="text-6xl">FutureFocus</p>
 	</div>
+    <!-- Main page content -->
 	<div class="grid justify-center justify-items-center gap-4">
+        <!-- Prompt input -->
 		<div>
 			<form id="submitPromptForm" action="?/submitPrompt" method="post">
 				<label for="">
@@ -11,6 +14,7 @@
 				</label>
 			</form>
 		</div>
+        <!-- Checkboxes -->
 		<div class="grid">
 			<div>
 				<input type="checkbox" name="beginner" id="beginner" />
@@ -25,6 +29,7 @@
 				<label class="text-2xl" for="professional">Professional</label>
 			</div>
 		</div>
+        <!-- Submit button -->
 		<div>
 			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
 		</div>
