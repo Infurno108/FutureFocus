@@ -6,7 +6,7 @@ const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
 console.log(config)
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
-export const _groqCall = async (carreer, checked) => {
+export const _groqCall = async (career, checked) => {
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -26,7 +26,7 @@ export const _groqCall = async (carreer, checked) => {
 			// Set a user message for the assistant to respond to.
 			{
 				role: 'user',
-				content: carreer + ', ' + checked + 'level'
+				content: career + ', ' + checked + 'level'
 			}
 		],
 
@@ -76,6 +76,8 @@ export const actions = {
 
 		console.log(message);
 
-		return { success: true, message: message };
+		let jsonResponse = JSON.parse(message);
+
+		return { success: true, response: jsonResponse };
 	}
 };
