@@ -1,6 +1,8 @@
 <script>
 	import { enhance } from '$app/forms';
 
+	export let form;
+
 	/**
 	 * @type {any}
 	 */
@@ -107,6 +109,10 @@
 			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
 		</div>
 	</div>
+
+	{#if form?.success}
+		<p>{form?.message}</p>
+	{/if}
 </div>
 
 <style lang="postcss">
