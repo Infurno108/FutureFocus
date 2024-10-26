@@ -13,16 +13,16 @@
 		</div>
 		<div class="grid">
 			<div>
-				<input type="checkbox" name="" id="" />
-				<label class="text-2xl" for="">Beginner</label>
+				<input type="checkbox" name="beginner" id="beginner" />
+				<label class="text-2xl" for="beginner">Beginner</label>
 			</div>
 			<div>
-				<input type="checkbox" name="" id="" />
-				<label class="text-2xl" for="">Intermediate</label>
+				<input type="checkbox" name="intermediate" id="intermediate" />
+				<label class="text-2xl" for="intermediate">Intermediate</label>
 			</div>
 			<div>
-				<input type="checkbox" name="" id="" />
-				<label class="text-2xl" for="">Professional</label>
+				<input type="checkbox" name="professional" id="professional" />
+				<label class="text-2xl" for="professional">Professional</label>
 			</div>
 		</div>
 		<div>
