@@ -111,7 +111,28 @@
 	</div>
 
 	{#if form?.success}
-		<p>{form?.message}</p>
+		<div class="grid justify-center">
+			<div class="grid">
+				<p>Short Term</p>
+				{#each form?.response['shortTerm'] as listItem}
+					<label><input type="checkbox" />{listItem}</label>
+				{/each}
+			</div>
+
+			<div class="grid">
+				<p>Mid Term</p>
+				{#each form?.response['midTerm'] as listItem}
+					<label><input type="checkbox" />{listItem}</label>
+				{/each}
+			</div>
+
+			<div class="grid">
+				<p>Long Term</p>
+				{#each form?.response['longTerm'] as listItem}
+					<label><input type="checkbox">{listItem}</label>
+				{/each}
+			</div>
+		</div>
 	{/if}
 </div>
 
