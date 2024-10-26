@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const groq = new Groq({ apiKey: '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' });
 
-export const _groqCall = async (carreer) => {
+export const _groqCall = async (carreer, checked) => {
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -15,12 +15,12 @@ export const _groqCall = async (carreer) => {
 			{
 				role: 'system',
 				content:
-					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. Split up the steps into three categories short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years) in that order. Between each step they should take put a •, and between each category put the character ★'
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. They will provide the career they want, and the level they are currently at.\nSplit up the steps into three categories short term (1 - 2 years), mid term (3 - 5 years), and long term (5+ years) in that order.\nBetween each step put a a •, and between each category put the character ★'
 			},
 			// Set a user message for the assistant to respond to.
 			{
 				role: 'user',
-				content: carreer + ', intermediate level'
+				content: carreer + ', ' + checked + 'level'
 			}
 		],
 
@@ -64,7 +64,7 @@ export const actions = {
 		console.log(promptInput);
 		console.log(checked);
 
-		const response = await _groqCall(promptInput);
+		const response = await _groqCall(promptInput, checked);
 		console.log(response.choices[0].message.content);
 	}
 };
