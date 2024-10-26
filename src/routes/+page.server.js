@@ -1,9 +1,9 @@
 import Groq from 'groq-sdk';
 
-import fs from "fs";
+import fs from 'fs';
 
-const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
-console.log(config)
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+console.log(config);
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
 export const _groqCall = async (career, checked) => {
