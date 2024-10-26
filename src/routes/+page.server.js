@@ -63,5 +63,8 @@ export const actions = {
 
         console.log(promptInput);
         console.log(checked);
+
+        const response = await getGroqChatCompletion();
+        console.log(response.choices[0].message.content);
     }
 }
