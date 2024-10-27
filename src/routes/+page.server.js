@@ -1,55 +1,19 @@
 import Groq from 'groq-sdk';
 import fs from 'fs';
-<<<<<<< HEAD
-//import { readPdfText } from 'pdf-text-reader';
-=======
 import { readPdfText } from 'pdf-text-reader';
-import * as pdfjs from 'pdfjs-dist';
->>>>>>> dbd1119e8de87047b100aa1e40d2722530f5abd3
+//import * as pdfjs from 'pdfjs-dist';
 
 const tokenCount = 8192;
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
-<<<<<<< HEAD
-/*
-async function csvExtract() {
-	const pdfText = await readPdfText({ url: 'Oliver_Flint_Rose_CV_2024.pdf' });
-	return pdfText;
-}
-*/
-=======
-
 
 async function csvExtract(file) {
-    const pdfText = await readPdfText( file );
-    return pdfText;
+	const pdfText = await readPdfText(file);
+	return pdfText;
 }
 
-const linkedScrape = async (link) => {
-	// eslint-disable-next-line no-useless-catch
-	try {
-		const { data } = await axios.get(link + '/details/skills/');
-		const dom = new JSDOM(data, {
-			runScripts: 'dangerously',
-			resources: 'usable'
-		});
-		const { document } = dom.window;
-		const skills = [];
-		const skillDivs = document.getElementsByClassName(
-			'FxPSDEjJBPtqlEVKDESyadlywZIWYtxnhGnhmaMHJqpfPnZpaAmnDIzFpQOnOjsnKpATdzJTSOiJwOpkqNxlQfSYZTqKCSpUpimApSyNhZgug'
-		);
-		for (let i = 0; i < skillDivs.length; i++) {
-			skills.push(skillDivs[i].textContent);
-		}
-		console.log(skills);
-	} catch (error) {
-		throw error;
-	}
-};
-
->>>>>>> dbd1119e8de87047b100aa1e40d2722530f5abd3
 export const _groqCall = async (career, checked) => {
 	return groq.chat.completions.create({
 		//
@@ -168,15 +132,11 @@ export const actions = {
 		const promptInput = data.get('promptInput');
 		const checked = data.get('checked');
 
-<<<<<<< HEAD
-		//console.log(data);
-=======
 		console.log(data);
 		console.log(file);
 
-		let resume = csvExtract(file);
-		console.log(resume)
->>>>>>> dbd1119e8de87047b100aa1e40d2722530f5abd3
+		//let resume = csvExtract(file);
+		//console.log(resume)
 
 		let response;
 
