@@ -1,21 +1,97 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import Groq from 'groq-sdk';
 
 	export let form;
 
+	let promptInput = '';
+
+	let beginnerChecked = true;
+	let intermediateChecked = false;
+	let professionalChecked = false;
+
 	let checklistStates = [];
+
+	function experienceChecked(experience) {
+		if (experience === 'beginner') {
+			beginnerChecked = true;
+			intermediateChecked = false;
+			professionalChecked = false;
+		} else if (experience === 'intermediate') {
+			beginnerChecked = false;
+			intermediateChecked = true;
+			professionalChecked = false;
+		} else {
+			beginnerChecked = false;
+			intermediateChecked = false;
+			professionalChecked = true;
+		}
+	}
 </script>
 
 <div>
 	<div>
-		<form action="?/submitPrompt" method="post">
+		<form
+			use:enhance={({ formData }) => {
+				formData.append('promptInput', promptInput);
+
+				if (beginnerChecked) formData.append('checked', 'beginner');
+				else if (intermediateChecked) formData.append('checked', 'intermediate');
+				else formData.append('checked', 'professional');
+			}}
+			action="?/submitPrompt"
+			method="post"
+		>
 			<label for="promptInput">
 				Enter prompt
-				<input placeholder="i just lost my dawg" type="text" name="promptInput" id="promptInput" />
+				<input
+					bind:value={promptInput}
+					placeholder="i just lost my dawg"
+					type="text"
+					name=""
+					id=""
+				/>
 			</label>
 			<button>Submit</button>
 		</form>
+	</div>
+
+	<div>
+		<label for="">
+			<input
+				on:change={() => {
+					experienceChecked('beginner');
+				}}
+				checked={beginnerChecked}
+				type="checkbox"
+				name=""
+				id=""
+			/>
+			Beginner
+		</label>
+		<label for="">
+			<input
+				on:change={() => {
+					experienceChecked('intermediate');
+				}}
+				checked={intermediateChecked}
+				type="checkbox"
+				name=""
+				id=""
+			/>
+			Intermediate
+		</label>
+		<label for="">
+			<input
+				on:change={() => {
+					experienceChecked('professional');
+				}}
+				checked={professionalChecked}
+				type="checkbox"
+				name=""
+				id=""
+			/>
+			Professional
+		</label>
 	</div>
 
 	{#if form?.groq}
@@ -76,7 +152,7 @@
 	{/if}
 	<div>
 		<form
-			use:enhance={({formData}) => {
+			use:enhance={({ formData }) => {
 				formData.append('checklist', JSON.stringify(checklistStates));
 				checklistStates = [];
 			}}

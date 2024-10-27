@@ -66,14 +66,18 @@ export const actions = {
 		const promptInput = data.get('promptInput');
 		const checked = data.get('checked');
 
+		console.log(data);
+
 		let response;
 
 		try {
 			response = await _groqCall(promptInput, checked);
+			console.log(response);
 		}
 		catch (error) {
 			console.log('groq exception, trying again');
 			response = await _groqCall(promptInput, checked);
+			console.log(response);
 			return { success: false };
 		}
 
@@ -87,6 +91,7 @@ export const actions = {
 	},
 	regenerateList: async ({ request }) => {
 		const data = await request.formData();
+		const checklist = data.get('checklist');
 		console.log(data);
 
 		return { success: true };
