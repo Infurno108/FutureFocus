@@ -1,43 +1,19 @@
 import Groq from 'groq-sdk';
 import fs from 'fs';
 import { readPdfText } from 'pdf-text-reader';
-import * as pdfjs from 'pdfjs-dist';
+//import * as pdfjs from 'pdfjs-dist';
 
 const tokenCount = 8192;
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
-
 async function csvExtract(file) {
-    const pdfText = await readPdfText( file );
-    return pdfText;
+	const pdfText = await readPdfText(file);
+	return pdfText;
 }
 
-const linkedScrape = async (link) => {
-	// eslint-disable-next-line no-useless-catch
-	try {
-		const { data } = await axios.get(link + '/details/skills/');
-		const dom = new JSDOM(data, {
-			runScripts: 'dangerously',
-			resources: 'usable'
-		});
-		const { document } = dom.window;
-		const skills = [];
-		const skillDivs = document.getElementsByClassName(
-			'FxPSDEjJBPtqlEVKDESyadlywZIWYtxnhGnhmaMHJqpfPnZpaAmnDIzFpQOnOjsnKpATdzJTSOiJwOpkqNxlQfSYZTqKCSpUpimApSyNhZgug'
-		);
-		for (let i = 0; i < skillDivs.length; i++) {
-			skills.push(skillDivs[i].textContent);
-		}
-		console.log(skills);
-	} catch (error) {
-		throw error;
-	}
-};
-
 export const _groqCall = async (career, checked) => {
-	//linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -158,8 +134,8 @@ export const actions = {
 		console.log(data);
 		console.log(file);
 
-		let resume = csvExtract(file);
-		console.log(resume)
+		//let resume = csvExtract(file);
+		//console.log(resume)
 
 		let response;
 
@@ -167,11 +143,9 @@ export const actions = {
 		while (attempts > 0) {
 			try {
 				response = await _groqCall(promptInput, checked);
-				if(response.choices[0].message)
-					break;
+				if (response.choices[0].message) break;
 				attempts--;
-			}
-			catch (error) {
+			} catch (error) {
 				console.log('groq excepted');
 				attempts--;
 			}
@@ -194,7 +168,7 @@ export const actions = {
 		let response;
 
 		let attempts = 5;
-		while(attempts > 0) {
+		while (attempts > 0) {
 			try {
 				response = await _groqRefresh(initialPrompt, checklist);
 				console.log(response);
