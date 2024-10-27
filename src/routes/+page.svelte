@@ -135,15 +135,15 @@
 	{/if}
 
 	{#if form?.groq}
-		<div class="flex w-3/4 flex-col gap-6 mt-8">
+		<div class="flex w-full flex-col mt-8">
 			<div
-				class="flex flex-row items-center justify-center border-4 border-dotted border-[blue] bg-[black]  w-full h-200 text-white" 
-			>
-				<div>
+				class="flex: 1 0 100% flex-row items-center justify-center border-4 border-dotted border-[blue] bg-[black]  w-full h-250 text-white">
+				<div class="flex flex-rows justify-between">
+					<img class="w-40 display-flex" src="/banana.gif" alt="Dancing banana" />
 					<img class="w-40" src="/dancecat.gif" alt="Dancing cat" />
 				</div>
 				<div class="my-10 flex flex-col px-4">
-					<p class="term font-serif">Short Term</p>
+					<h1 class="term font-serif">Short Term (1 - 2 Years)</h1>
 					<div>
 						{#each form.groq['shortTerm'] as item}
 							<div class="flex flex-row">
@@ -165,13 +165,20 @@
 					</div>
 				</div>
 				<div>
-					<img class="w-40" src="/banana.gif" alt="Dancing banana" />
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
 				</div>
 			</div>
 			<div class="bg-white">
-				<div class="flex h-12 bg-[#4A0001] px-4">
-					<p class="term self-center text-white">Medium Term</p>
+				<div class="flex h-16 bg-[#4A0001] px-4">
+					<p class="term self-center text-white">Medium Term (3 - 5 Years)</p>
 				</div>
+				<br>
 				<div class="my-8 flex flex-col gap-1 px-4">
 					{#each form.groq['midTerm'] as item}
 						<div class="my-1 flex flex-row">
@@ -190,15 +197,24 @@
 							<p>{item}</p>
 						</div>
 					{/each}
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
 				</div>
 			</div>
 
 			<div>
-				<div class="rounded-3xl bg-gray-700 p-4">
-					<p class="font-futura pb-4 text-center text-3xl text-white">Long Term</p>
+				<div class="rounded-3xl from-white bg-gradient-to-r from-slate-500 to-slate-700 p-4">
+					<p class="font-futura pb-4 text-center h-20 text-3xl text-white">Long Term (5+ Years)</p>
 					<div class="flex flex-col gap-4">
 						{#each form.groq['longTerm'] as item}
-							<div class="bg-primary flex flex-row gap-2 rounded-full px-6 py-4">
+							<div class="bg-opacity-65 hover:bg-opacity-100 bg-slate-800 flex flex-row gap-2 rounded-full px-6 py-4">
 								<input
 									on:change={(e) => {
 										if (e.target.checked) {
@@ -209,12 +225,23 @@
 									}}
 									type="checkbox"
 									name=""
-									id=""
+									id="teal-checkbox"
 								/>
 								<p class="font-futura text-xl text-white">{item}</p>
 							</div>
 						{/each}
 					</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
 				</div>
 			</div>
 		</div>
