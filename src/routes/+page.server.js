@@ -1,13 +1,18 @@
 import Groq from 'groq-sdk';
-import axios from 'axios';
-
 import fs from 'fs';
-import { JSDOM } from 'jsdom';
+import { readPdfText } from 'pdf-text-reader';
+import * as pdfjs from 'pdfjs-dist';
 
 const tokenCount = 8192;
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
+
+
+async function csvExtract(file) {
+    const pdfText = await readPdfText( file );
+    return pdfText;
+}
 
 const linkedScrape = async (link) => {
 	// eslint-disable-next-line no-useless-catch
@@ -146,10 +151,15 @@ export const _groqRefresh = async (career, checked) => {
 export const actions = {
 	submitPrompt: async ({ request }) => {
 		const data = await request.formData();
+		const file = data.get('file');
 		const promptInput = data.get('promptInput');
 		const checked = data.get('checked');
 
 		console.log(data);
+		console.log(file);
+
+		let resume = csvExtract(file);
+		console.log(resume)
 
 		let response;
 

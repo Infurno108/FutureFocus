@@ -2,11 +2,13 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { get } from 'svelte/store';
 	import { initialPrompt } from '$lib/store.js';
+	import { initialFile } from '$lib/store.js';
 	import { onMount } from 'svelte';
 
 	export let form;
 
 	let promptInput = '';
+	let file ='';
 
 	let beginnerChecked = true;
 	let intermediateChecked = false;
@@ -50,8 +52,10 @@
 			<form
 				use:enhance={({ formData }) => {
 					formData.append('promptInput', promptInput);
+					formData.append('file', file);
 
 					initialPrompt.update((n) => (n = promptInput));
+					initialFile.update((n) => (n = file));
 
 					if (beginnerChecked) formData.append('checked', 'beginner');
 					else if (intermediateChecked) formData.append('checked', 'intermediate');
@@ -71,6 +75,7 @@
 				}}
 				action="?/submitPrompt"
 				method="post"
+				enctype="multipart/form-data"
 			>
 				<div class="flex flex-col">
 					<input
@@ -79,6 +84,12 @@
 						placeholder="Enter career path"
 						type="text"
 					/>
+					<input
+						type="file"
+						name="file"
+						id="file"
+						accept="application/pdf"
+			 		 />
 					<button class="twbtn mt-4">Generate</button>
 				</div>
 			</form>

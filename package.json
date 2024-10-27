@@ -35,6 +35,9 @@
 		"cheerio": "^1.0.0",
 		"groq-sdk": "^0.7.0",
 		"jsdom": "^25.0.1",
-		"package.json": "^2.0.1"
+		"package.json": "^2.0.1",
+		"pdf-text-reader": "^5.1.0",
+		"pdf2json": "^3.1.4",
+		"pdfjs-dist": "^4.7.76"
 	}
 }
