@@ -1,20 +1,19 @@
 import Groq from 'groq-sdk';
 import fs from 'fs';
-import { readPdfText } from 'pdf-text-reader';
+//import { readPdfText } from 'pdf-text-reader';
 
 const tokenCount = 8192;
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
-
+/*
 async function csvExtract() {
 	const pdfText = await readPdfText({ url: 'Oliver_Flint_Rose_CV_2024.pdf' });
 	return pdfText;
 }
-
+*/
 export const _groqCall = async (career, checked) => {
-	console.log(await csvExtract());
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -139,11 +138,9 @@ export const actions = {
 		while (attempts > 0) {
 			try {
 				response = await _groqCall(promptInput, checked);
-				if(response.choices[0].message)
-					break;
+				if (response.choices[0].message) break;
 				attempts--;
-			}
-			catch (error) {
+			} catch (error) {
 				console.log('groq excepted');
 				attempts--;
 			}
@@ -166,7 +163,7 @@ export const actions = {
 		let response;
 
 		let attempts = 5;
-		while(attempts > 0) {
+		while (attempts > 0) {
 			try {
 				response = await _groqRefresh(initialPrompt, checklist);
 				console.log(response);
