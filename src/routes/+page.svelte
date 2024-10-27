@@ -119,7 +119,7 @@
 	</div>
 
 	{#if form?.groq}
-		<div class="flex w-3/4 flex-col">
+		<div class="flex w-3/4 flex-col gap-6">
 			<div
 				class="flex flex-row items-center justify-center border-4 border-dotted border-[#ff13f0] bg-[#41fdfe]"
 			>
@@ -154,7 +154,7 @@
 			</div>
 			<div class="bg-white">
 				<div class="flex h-12 bg-[#4A0001] px-4">
-					<p class="term self-center text-white">Med Term</p>
+					<p class="term self-center text-white">Medium Term</p>
 				</div>
 				<div class="my-8 flex flex-col gap-1 px-4">
 					{#each form.groq['midTerm'] as item}
@@ -178,8 +178,9 @@
 			</div>
 
 			<div>
-				<p class="term font-futura text-center bg-gradient-to-t from-gray-700 text-white">Long Term</p>
-				<div class="bg-gray-700 p-4">
+				
+				<div class="bg-gray-700 p-4 rounded-3xl">
+					<p class="text-3xl font-futura text-center text-white pb-4">Long Term</p>
 					<div class="flex flex-col gap-4">
 						{#each form.groq['longTerm'] as item}
 							<div class="bg-primary flex flex-row gap-2 rounded-full px-6 py-4">
@@ -195,7 +196,7 @@
 									name=""
 									id=""
 								/>
-								<p class="font-futura text-white">{item}</p>
+								<p class="font-futura text-white text-xl">{item}</p>
 							</div>
 						{/each}
 					</div>
@@ -222,7 +223,7 @@
 			action="?/regenerateList"
 			method="post"
 		>
-			<button class="twbtn">Regenerate</button>
+			<button class="twbtn mb-4">Regenerate</button>
 		</form>
 	</div>
 </div>
