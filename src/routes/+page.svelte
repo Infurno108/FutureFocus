@@ -119,42 +119,46 @@
 	</div>
 
 	{#if form?.groq}
-		<div class="flex flex-col gap-4">
-			<div class="flex flex-row items-center border-4 border-dotted border-[#ff13f0] bg-[#41fdfe]">
+		<div class="flex w-3/4 flex-col">
+			<div
+				class="flex flex-row items-center justify-center border-4 border-dotted border-[#ff13f0] bg-[#41fdfe]"
+			>
 				<div>
-					<img class="w-24" src="/dancecat.gif" alt="Dancing cat" />
+					<img class="w-40" src="/dancecat.gif" alt="Dancing cat" />
 				</div>
-				<div class="px-4">
+				<div class="my-10 flex flex-col px-4">
 					<p class="term font-serif">Short Term</p>
-					{#each form.groq['shortTerm'] as item}
-						<div class="flex flex-row">
-							<input
-								on:change={(e) => {
-									if (e.target.checked) {
-										if (!checklistStates.includes(item)) checklistStates.push(item);
-									} else {
-										checklistStates = checklistStates.filter((it) => it !== item);
-									}
-								}}
-								type="checkbox"
-								name=""
-								id=""
-							/>
-							<p class="font-serif">{item}</p>
-						</div>
-					{/each}
+					<div>
+						{#each form.groq['shortTerm'] as item}
+							<div class="flex flex-row">
+								<input
+									on:change={(e) => {
+										if (e.target.checked) {
+											if (!checklistStates.includes(item)) checklistStates.push(item);
+										} else {
+											checklistStates = checklistStates.filter((it) => it !== item);
+										}
+									}}
+									type="checkbox"
+									name=""
+									id=""
+								/>
+								<p class="font-serif">{item}</p>
+							</div>
+						{/each}
+					</div>
 				</div>
 				<div>
-					<img class="w-24" src="/banana.gif" alt="Dancing banana" />
+					<img class="w-40" src="/banana.gif" alt="Dancing banana" />
 				</div>
 			</div>
 			<div class="bg-white">
 				<div class="flex h-12 bg-[#4A0001] px-4">
-					<p class="term self-center text-white">Mid Term</p>
+					<p class="term self-center text-white">Med Term</p>
 				</div>
-				<div class="p-2">
+				<div class="my-8 flex flex-col gap-1 px-4">
 					{#each form.groq['midTerm'] as item}
-						<div class="flex flex-row my-1">
+						<div class="my-1 flex flex-row">
 							<input
 								on:change={(e) => {
 									if (e.target.checked) {
@@ -172,26 +176,29 @@
 					{/each}
 				</div>
 			</div>
+
 			<div>
-				<p class="term font-futura text-white">Long Term</p>
-				<div class="flex flex-col gap-4">
-					{#each form.groq['longTerm'] as item}
-						<div class="bg-primary flex flex-row gap-2 rounded-full px-6 py-4">
-							<input
-								on:change={(e) => {
-									if (e.target.checked) {
-										if (!checklistStates.includes(item)) checklistStates.push(item);
-									} else {
-										checklistStates = checklistStates.filter((it) => it !== item);
-									}
-								}}
-								type="checkbox"
-								name=""
-								id=""
-							/>
-							<p class="font-futura text-white">{item}</p>
-						</div>
-					{/each}
+				<p class="term font-futura text-center bg-gradient-to-t from-gray-700 text-white">Long Term</p>
+				<div class="bg-gray-700 p-4">
+					<div class="flex flex-col gap-4">
+						{#each form.groq['longTerm'] as item}
+							<div class="bg-primary flex flex-row gap-2 rounded-full px-6 py-4">
+								<input
+									on:change={(e) => {
+										if (e.target.checked) {
+											if (!checklistStates.includes(item)) checklistStates.push(item);
+										} else {
+											checklistStates = checklistStates.filter((it) => it !== item);
+										}
+									}}
+									type="checkbox"
+									name=""
+									id=""
+								/>
+								<p class="font-futura text-white">{item}</p>
+							</div>
+						{/each}
+					</div>
 				</div>
 			</div>
 		</div>
