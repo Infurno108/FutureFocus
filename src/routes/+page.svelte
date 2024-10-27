@@ -82,6 +82,7 @@
 						bind:value={promptInput}
 						placeholder="Enter career path"
 						type="text"
+						required
 					/>
 					<input
 						type="file"

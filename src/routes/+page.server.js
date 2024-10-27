@@ -66,7 +66,6 @@ export const _groqCall = async (career, checked) => {
 };
 
 export const _groqRefresh = async (career, checked) => {
-	console.log(csvExtract());
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -131,14 +130,14 @@ export const actions = {
 		console.log(data);
 		console.log(file);
 
-		new PdfReader().parseBuffer(Buffer.from(await file.arrayBuffer()), (err, item) => {
-			if (err)
-				console.log(err);
-			else if (item?.text) {
-				// console.log(item.text);
-				pdfPrompt += item.text;
-			}
-		});
+		// new PdfReader().parseBuffer(Buffer.from(await file.arrayBuffer()), (err, item) => {
+		// 	if (err)
+		// 		console.log(err);
+		// 	else if (item?.text) {
+		// 		// console.log(item.text);
+		// 		pdfPrompt += item.text;
+		// 	}
+		// });
 
 
 		let pdfPrompt = '';
@@ -198,7 +197,7 @@ export const actions = {
 
 		let response;
 
-		let attempts = 5;
+		let attempts = 10;
 		while (attempts > 0) {
 			try {
 				response = await _groqRefresh(initialPrompt, checklist);
@@ -207,6 +206,7 @@ export const actions = {
 			} catch (error) {
 				console.log('groq exception, trying again');
 				attempts--;
+				response = await _groqRefresh(initialPrompt, checklist);
 			}
 		}
 
