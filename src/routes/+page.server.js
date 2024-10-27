@@ -1,12 +1,37 @@
 import Groq from 'groq-sdk';
+import axios from 'axios';
 
 import fs from 'fs';
+import { JSDOM } from 'jsdom';
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 console.log(config);
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
+const linkedScrape = async (link) => {
+	// eslint-disable-next-line no-useless-catch
+	try {
+		const { data } = await axios.get(link + '/details/skills/');
+		const dom = new JSDOM(data, {
+			runScripts: 'dangerously',
+			resources: 'usable'
+		});
+		const { document } = dom.window;
+		const skills = [];
+		const skillDivs = document.getElementsByClassName(
+			'FxPSDEjJBPtqlEVKDESyadlywZIWYtxnhGnhmaMHJqpfPnZpaAmnDIzFpQOnOjsnKpATdzJTSOiJwOpkqNxlQfSYZTqKCSpUpimApSyNhZgug'
+		);
+		for (let i = 0; i < skillDivs.length; i++) {
+			skills.push(skillDivs[i].textContent);
+		}
+		console.log(skills);
+	} catch (error) {
+		throw error;
+	}
+};
+
 export const _groqCall = async (career, checked) => {
+	linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -26,7 +51,7 @@ export const _groqCall = async (career, checked) => {
 			// Set a user message for the assistant to respond to.
 			{
 				role: 'user',
-				content: career + ', ' + checked + 'level' 
+				content: career + ', ' + checked + 'level'
 			}
 		],
 
@@ -81,5 +106,3 @@ export const actions = {
 		return { success: true, response: jsonResponse };
 	}
 };
-
-
