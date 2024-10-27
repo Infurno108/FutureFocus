@@ -138,7 +138,7 @@
 	{#if form?.groq}
 		<div class="flex w-3/4 flex-col gap-6 mt-8">
 			<div
-				class="flex flex-row items-center justify-center border-4 border-dotted border-[#ff13f0] bg-[#41fdfe]"
+				class="flex flex-row items-center justify-center border-4 border-dotted border-[blue] bg-[black]  w-full h-200 text-white" 
 			>
 				<div>
 					<img class="w-40" src="/dancecat.gif" alt="Dancing cat" />
