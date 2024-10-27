@@ -1,5 +1,5 @@
 <script>
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 
 	export let form;
 
@@ -7,11 +7,14 @@
 	 * @type {any}
 	 */
 	let promptInput = '';
-	let selectedCheckbox = '';
 
-	let beginnerChecked = false,
-		intermediateChecked = false,
-		professionalChecked = false;
+	let beginnerChecked = false;
+	let intermediateChecked = false;
+	let professionalChecked = false;
+
+	let shortTermChecked = [];
+	let midTermChecked = [];
+	let longTermChecked = [];
 
 	/**
 	 * @param {string} checkbox
@@ -50,6 +53,30 @@
 					if (beginnerChecked) formData.append('checked', 'beginner');
 					else if (intermediateChecked) formData.append('checked', 'intermediate');
 					else if (professionalChecked) formData.append('checked', 'professional');
+
+					return async ({ result }) => {
+						if (result?.success) {
+							shortTermChecked = [];
+							midTermChecked = [];
+							longTermChecked = [];
+
+							result.response['shortTerm'].forEach((value, index) => {
+								shortTermChecked[index] = false;
+							});
+
+							result.response['midTerm'].forEach((value, index) => {
+								midTermChecked[index] = false;
+							});
+
+							result.response['longTerm'].forEach((value, index) => {
+								longTermChecked[index] = false;
+							});
+
+							console.log(result);
+						}
+
+						applyAction(result);
+					};
 				}}
 				id="submitPromptForm"
 				action="?/submitPrompt"
@@ -105,35 +132,50 @@
 			</div>
 		</div>
 		<!-- Submit button -->
-		<div>
+		<div class="grid">
 			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
 		</div>
-	</div>
 
-	{#if form?.success}
-		<div class="grid justify-center">
-			<div class="grid">
-				<p>Short Term</p>
-				{#each form?.response['shortTerm'] as listItem}
-					<label><input type="checkbox" />{listItem}</label>
-				{/each}
-			</div>
+		<!-- Checklists -->
+		{#if form?.success}
+			<div class="grid justify-center">
+				<div class="grid">
+					<p>Short Term</p>
+					{#each form?.response['shortTerm'] as listItem, i}
+						<label><input bind:checked={shortTermChecked[i]} type="checkbox" />{listItem}</label>
+					{/each}
+				</div>
 
-			<div class="grid">
-				<p>Mid Term</p>
-				{#each form?.response['midTerm'] as listItem}
-					<label><input type="checkbox" />{listItem}</label>
-				{/each}
-			</div>
+				<div class="grid">
+					<p>Mid Term</p>
+					{#each form?.response['midTerm'] as listItem, i}
+						<label><input bind:checked={midTermChecked[i]} type="checkbox" />{listItem}</label>
+					{/each}
+				</div>
 
-			<div class="grid">
-				<p>Long Term</p>
-				{#each form?.response['longTerm'] as listItem}
-					<label><input type="checkbox">{listItem}</label>
-				{/each}
+				<div class="grid">
+					<p>Long Term</p>
+					{#each form?.response['longTerm'] as listItem, i}
+						<label><input bind:checked={longTermChecked[i]} type="checkbox" />{listItem}</label>
+					{/each}
+				</div>
 			</div>
+		{/if}
+
+		<div class="">
+			<form
+				use:enhance={({ formData }) => {
+					formData.append('shortTermChecked', JSON.stringify(shortTermChecked));
+					formData.append('midTermChecked', JSON.stringify(midTermChecked));
+					formData.append('longTermChecked', JSON.stringify(longTermChecked));
+				}}
+				action="?/regenerateList"
+				method="post"
+			>
+				<button class="twbutton">Regenerate</button>
+			</form>
 		</div>
-	{/if}
+	</div>
 </div>
 
 <style lang="postcss">

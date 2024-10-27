@@ -3,7 +3,6 @@ import Groq from 'groq-sdk';
 import fs from "fs";
 
 const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
-console.log(config)
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
 export const _groqCall = async (career, checked) => {
@@ -67,17 +66,19 @@ export const actions = {
 		const promptInput = data.get('promptInput');
 		const checked = data.get('checked');
 
-		console.log(promptInput);
-		console.log(checked);
-
 		const response = await _groqCall(promptInput, checked);
 
-		let message = response.choices[0].message.content;
+		if (response?.error)
+			return { success: false };
 
-		console.log(message);
+		let message = response.choices[0].message.content;
 
 		let jsonResponse = JSON.parse(message);
 
 		return { success: true, response: jsonResponse };
+	},
+	regenerateList: async ({ request }) => {
+		const data = await request.formData();
+		console.log(data);
 	}
 };
