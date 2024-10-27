@@ -92,6 +92,7 @@ export const actions = {
 	regenerateList: async ({ request }) => {
 		const data = await request.formData();
 		const checklist = data.get('checklist');
+		const initialPrompt = data.get('initialPrompt');
 		console.log(data);
 
 		return { success: true };
