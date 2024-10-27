@@ -36,8 +36,8 @@
 </script>
 
 <div class="bg-primary flex h-24 flex-row items-center">
-	<img class="w-20" src="/favicon.png" alt="FutureFocus logo" />
-	<p class="text-4xl text-white">FutureFocus</p>
+	<img class="mx-2 w-20" src="/icon.png" alt="FutureFocus logo" />
+	<p class=" mx-4 text-4xl text-white">FutureFocus</p>
 </div>
 
 <div class="flex flex-col items-center gap-y-4">
