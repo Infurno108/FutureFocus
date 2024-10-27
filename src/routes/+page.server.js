@@ -21,12 +21,12 @@ export const _groqCall = async (career, checked) => {
 			{
 				role: 'system',
 				content:
-					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and the level they are currently at.\nRespond in the form of a json file with three seperate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided.'
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and the level they are currently at.\nRespond in the form of a json file with three separate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided.'
 			},
 			// Set a user message for the assistant to respond to.
 			{
 				role: 'user',
-				content: career + ', ' + checked + 'level'
+				content: career + ', ' + checked + 'level' 
 			}
 		],
 
@@ -81,3 +81,5 @@ export const actions = {
 		return { success: true, response: jsonResponse };
 	}
 };
+
+
