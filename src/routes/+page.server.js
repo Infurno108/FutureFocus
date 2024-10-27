@@ -4,7 +4,7 @@ import axios from 'axios';
 import fs from 'fs';
 import { JSDOM } from 'jsdom';
 
-const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
+const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
 const linkedScrape = async (link) => {
@@ -98,8 +98,7 @@ export const actions = {
 		try {
 			response = await _groqCall(promptInput, checked);
 			console.log(response);
-		}
-		catch (error) {
+		} catch (error) {
 			console.log('groq exception, trying again');
 			response = await _groqCall(promptInput, checked);
 			console.log(response);
