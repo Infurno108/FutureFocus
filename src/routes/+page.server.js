@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk';
-import fs from 'fs';
-import { readPdfText } from 'pdf-text-reader';
-//import * as pdfjs from 'pdfjs-dist';
+import fs, { writeFileSync } from 'fs';
+import { PdfReader } from 'pdfreader';
+// import { PdfReader } from 'pdfreader';
 
 const tokenCount = 8192;
 
@@ -9,10 +9,6 @@ const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
-async function csvExtract(file) {
-	const pdfText = await readPdfText(file);
-	return pdfText;
-}
 
 export const _groqCall = async (career, checked) => {
 	return groq.chat.completions.create({
@@ -135,15 +131,49 @@ export const actions = {
 		console.log(data);
 		console.log(file);
 
-		//let resume = csvExtract(file);
-		//console.log(resume)
+		new PdfReader().parseBuffer(Buffer.from(await file.arrayBuffer()), (err, item) => {
+			if (err)
+				console.log(err);
+			else if (item?.text) {
+				// console.log(item.text);
+				pdfPrompt += item.text;
+			}
+		});
+
+
+		let pdfPrompt = '';
+
+		if (file) {
+			const arrayBuffer = await file.arrayBuffer();
+
+			try {
+				pdfPrompt = await new Promise((resolve, reject) => {
+					let text = '';
+					new PdfReader().parseBuffer(Buffer.from(arrayBuffer), (err, item) => {
+						if (err)
+							reject(err);
+						else if (item?.text)
+							text += item.text;
+						else if (!item)
+							resolve(text);
+					});
+				});
+			}
+			catch (error) {
+				console.log('pdf exception');
+			}
+		}
+
 
 		let response;
 
 		let attempts = 10;
 		while (attempts > 0) {
 			try {
-				response = await _groqCall(promptInput, checked);
+				console.log(promptInput);
+				console.log(pdfPrompt);
+
+				response = await _groqCall(promptInput + pdfPrompt, checked);
 				if (response.choices[0].message) break;
 				attempts--;
 			} catch (error) {
@@ -156,7 +186,7 @@ export const actions = {
 
 		let jsonResponse = JSON.parse(message);
 
-		//console.log(jsonResponse);
+		console.log(jsonResponse);
 
 		return { success: true, groq: jsonResponse };
 	},

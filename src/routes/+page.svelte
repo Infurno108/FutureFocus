@@ -4,7 +4,6 @@
 	import { initialPrompt } from '$lib/store.js';
 	import { initialFile } from '$lib/store.js';
 	import { onMount } from 'svelte';
-
 	export let form;
 
 	let promptInput = '';
