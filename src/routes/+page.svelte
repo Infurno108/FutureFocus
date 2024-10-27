@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="flex flex-row items-center h-24 bg-primary">
+<div class="bg-primary flex h-24 flex-row items-center">
 	<img class="w-20" src="/favicon.png" alt="FutureFocus logo" />
 	<p class="text-4xl text-white">FutureFocus</p>
 </div>
@@ -67,7 +67,7 @@
 			method="post"
 		>
 			<div class="flex flex-col">
-				<p class="font-futura text-white pb-4 text-center text-4xl">Profession:</p>
+				<p class="font-futura pb-4 text-center text-4xl text-white">Profession:</p>
 				<input
 					class="twinput focus:shadow-outline"
 					bind:value={promptInput}
@@ -119,61 +119,81 @@
 	</div>
 
 	{#if form?.groq}
-		<div>
-			<p class="term">Short Term</p>
-			{#each form.groq['shortTerm'] as item}
-				<div class="flex flex-row">
-					<input
-						on:change={(e) => {
-							if (e.target.checked) {
-								if (!checklistStates.includes(item)) checklistStates.push(item);
-							} else {
-								checklistStates = checklistStates.filter((it) => it !== item);
-							}
-						}}
-						type="checkbox"
-						name=""
-						id=""
-					/>
-					<p>{item}</p>
+		<div class="flex flex-col gap-4">
+			<div class="flex flex-row items-center border-4 border-dotted border-[#ff13f0] bg-[#41fdfe]">
+				<div>
+					<img class="w-24" src="/dancecat.gif" alt="Dancing cat" />
 				</div>
-			{/each}
-			<p class="term">Mid Term</p>
-			{#each form.groq['midTerm'] as item}
-				<div class="flex flex-row">
-					<input
-						on:change={(e) => {
-							if (e.target.checked) {
-								if (!checklistStates.includes(item)) checklistStates.push(item);
-							} else {
-								checklistStates = checklistStates.filter((it) => it !== item);
-							}
-						}}
-						type="checkbox"
-						name=""
-						id=""
-					/>
-					<p>{item}</p>
+				<div class="px-4">
+					<p class="term font-serif">Short Term</p>
+					{#each form.groq['shortTerm'] as item}
+						<div class="flex flex-row">
+							<input
+								on:change={(e) => {
+									if (e.target.checked) {
+										if (!checklistStates.includes(item)) checklistStates.push(item);
+									} else {
+										checklistStates = checklistStates.filter((it) => it !== item);
+									}
+								}}
+								type="checkbox"
+								name=""
+								id=""
+							/>
+							<p class="font-serif">{item}</p>
+						</div>
+					{/each}
 				</div>
-			{/each}
-			<p class="term">Long Term</p>
-			{#each form.groq['longTerm'] as item}
-				<div class="flex flex-row">
-					<input
-						on:change={(e) => {
-							if (e.target.checked) {
-								if (!checklistStates.includes(item)) checklistStates.push(item);
-							} else {
-								checklistStates = checklistStates.filter((it) => it !== item);
-							}
-						}}
-						type="checkbox"
-						name=""
-						id=""
-					/>
-					<p>{item}</p>
+				<div>
+					<img class="w-24" src="/banana.gif" alt="Dancing banana" />
 				</div>
-			{/each}
+			</div>
+			<div class="bg-white">
+				<div class="flex h-12 bg-[#4A0001] px-4">
+					<p class="term self-center text-white">Mid Term</p>
+				</div>
+				<div class="p-2">
+					{#each form.groq['midTerm'] as item}
+						<div class="flex flex-row my-1">
+							<input
+								on:change={(e) => {
+									if (e.target.checked) {
+										if (!checklistStates.includes(item)) checklistStates.push(item);
+									} else {
+										checklistStates = checklistStates.filter((it) => it !== item);
+									}
+								}}
+								type="checkbox"
+								name=""
+								id=""
+							/>
+							<p>{item}</p>
+						</div>
+					{/each}
+				</div>
+			</div>
+			<div>
+				<p class="term font-futura text-white">Long Term</p>
+				<div class="flex flex-col gap-4">
+					{#each form.groq['longTerm'] as item}
+						<div class="bg-primary flex flex-row gap-2 rounded-full px-6 py-4">
+							<input
+								on:change={(e) => {
+									if (e.target.checked) {
+										if (!checklistStates.includes(item)) checklistStates.push(item);
+									} else {
+										checklistStates = checklistStates.filter((it) => it !== item);
+									}
+								}}
+								type="checkbox"
+								name=""
+								id=""
+							/>
+							<p class="font-futura text-white">{item}</p>
+						</div>
+					{/each}
+				</div>
+			</div>
 		</div>
 	{/if}
 	<div>
@@ -200,18 +220,20 @@
 	</div>
 </div>
 
-<footer class="p-4 bg-primary mt-auto">
+<footer class="bg-primary mt-auto p-4">
 	<a href="https://groq.com" target="_blank" rel="noopener noreferrer">
-		<img class="bottom-0 h-16" id="groq-logo"
-		  src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg"
-		  alt="Powered by Groq for fast inference."
+		<img
+			class="bottom-0 h-16"
+			id="groq-logo"
+			src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg"
+			alt="Powered by Groq for fast inference."
 		/>
-	  </a>
+	</a>
 </footer>
 
 <style lang="postcss">
 	.twbtn {
-		@apply rounded bg-primary px-4 py-2 font-bold text-white hover:bg-[#161616];
+		@apply bg-primary rounded px-4 py-2 font-bold text-white hover:bg-[#161616];
 	}
 
 	.twinput {
