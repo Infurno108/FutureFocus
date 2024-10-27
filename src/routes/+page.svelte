@@ -1,139 +1,91 @@
 <script>
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
+	import Groq from 'groq-sdk';
 
 	export let form;
 
-	/**
-	 * @type {any}
-	 */
-	let promptInput = '';
-	let selectedCheckbox = '';
-
-	let beginnerChecked = false,
-		intermediateChecked = false,
-		professionalChecked = false;
-
-	/**
-	 * @param {string} checkbox
-	 */
-	function checkboxChanged(checkbox) {
-		if (checkbox == 'beginner') {
-			beginnerChecked = true;
-			intermediateChecked = false;
-			professionalChecked = false;
-		} else if (checkbox == 'intermediate') {
-			beginnerChecked = false;
-			intermediateChecked = true;
-			professionalChecked = false;
-		} else if (checkbox == 'professional') {
-			beginnerChecked = false;
-			intermediateChecked = false;
-			professionalChecked = true;
-		}
-	}
+	let checklistStates = [];
 </script>
 
 <div>
-	<!-- Header -->
-	<div class="flex flex-row items-center">
-		<img class="w-28" src="/favicon.png" alt="FutureFocus logo" />
-		<p class="text-6xl">FutureFocus</p>
-	</div>
-	<!-- Main page content -->
-	<div class="grid justify-center justify-items-center gap-4">
-		<!-- Prompt input -->
-		<div>
-			<form
-				use:enhance={({ formData }) => {
-					formData.append('promptInput', promptInput);
-
-					if (beginnerChecked) formData.append('checked', 'beginner');
-					else if (intermediateChecked) formData.append('checked', 'intermediate');
-					else if (professionalChecked) formData.append('checked', 'professional');
-				}}
-				id="submitPromptForm"
-				action="?/submitPrompt"
-				method="post"
-			>
-				<label for="promptInput"> </label>
-				<input
-					bind:value={promptInput}
-					class="twinput focus:shadow-outline"
-					id="promptInput"
-					placeholder="i just lost my dawg"
-					type="text"
-				/>
-			</form>
-		</div>
-		<!-- Checkboxes -->
-		<div class="grid">
-			<div>
-				<input
-					on:change={() => {
-						checkboxChanged('beginner');
-					}}
-					checked={beginnerChecked}
-					type="checkbox"
-					name="beginner"
-					id="beginner"
-				/>
-				<label class="text-2xl" for="beginner">Beginner</label>
-			</div>
-			<div>
-				<input
-					on:change={() => {
-						checkboxChanged('intermediate');
-					}}
-					checked={intermediateChecked}
-					type="checkbox"
-					name="intermediate"
-					id="intermediate"
-				/>
-				<label class="text-2xl" for="intermediate">Intermediate</label>
-			</div>
-			<div>
-				<input
-					on:change={() => {
-						checkboxChanged('professional');
-					}}
-					checked={professionalChecked}
-					type="checkbox"
-					name="professional"
-					id="professional"
-				/>
-				<label class="text-2xl" for="professional">Professional</label>
-			</div>
-		</div>
-		<!-- Submit button -->
-		<div>
-			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
-		</div>
+	<div>
+		<form action="?/submitPrompt" method="post">
+			<label for="promptInput">
+				Enter prompt
+				<input placeholder="i just lost my dawg" type="text" name="promptInput" id="promptInput" />
+			</label>
+			<button>Submit</button>
+		</form>
 	</div>
 
-	{#if form?.success}
-		<div class="grid justify-center">
-			<div class="grid">
-				<p>Short Term</p>
-				{#each form?.response['shortTerm'] as listItem}
-					<label><input type="checkbox" />{listItem}</label>
-				{/each}
+	{#if form?.groq}
+		<p>Short Term</p>
+		{#each form.groq['shortTerm'] as item}
+			<div class="flex flex-row">
+				<input
+					on:change={(e) => {
+						if (e.target.checked) {
+							if (!checklistStates.includes(item)) checklistStates.push(item);
+						} else {
+							checklistStates = checklistStates.filter((it) => it !== item);
+						}
+					}}
+					type="checkbox"
+					name=""
+					id=""
+				/>
+				<p>{item}</p>
 			</div>
-
-			<div class="grid">
-				<p>Mid Term</p>
-				{#each form?.response['midTerm'] as listItem}
-					<label><input type="checkbox" />{listItem}</label>
-				{/each}
+		{/each}
+		<p>Mid Term</p>
+		{#each form.groq['midTerm'] as item}
+			<div class="flex flex-row">
+				<input
+					on:change={(e) => {
+						if (e.target.checked) {
+							if (!checklistStates.includes(item)) checklistStates.push(item);
+						} else {
+							checklistStates = checklistStates.filter((it) => it !== item);
+						}
+					}}
+					type="checkbox"
+					name=""
+					id=""
+				/>
+				<p>{item}</p>
 			</div>
-
-			<div class="grid">
-				<p>Long Term</p>
-				{#each form?.response['longTerm'] as listItem}
-					<label><input type="checkbox">{listItem}</label>
-				{/each}
+		{/each}
+		<p>Long Term</p>
+		{#each form.groq['longTerm'] as item}
+			<div class="flex flex-row">
+				<input
+					on:change={(e) => {
+						if (e.target.checked) {
+							if (!checklistStates.includes(item)) checklistStates.push(item);
+						} else {
+							checklistStates = checklistStates.filter((it) => it !== item);
+						}
+					}}
+					type="checkbox"
+					name=""
+					id=""
+				/>
+				<p>{item}</p>
 			</div>
-		</div>
+		{/each}
 	{/if}
+	<div>
+		<form
+			use:enhance={({formData}) => {
+				formData.append('checklist', JSON.stringify(checklistStates));
+				checklistStates = [];
+			}}
+			action="?/regenerateList"
+			method="post"
+		>
+			<button>Regenerate</button>
+		</form>
+	</div>
 </div>
 
 <style lang="postcss">
