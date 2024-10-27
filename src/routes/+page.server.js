@@ -1,38 +1,20 @@
 import Groq from 'groq-sdk';
-import axios from 'axios';
-
 import fs from 'fs';
-import { JSDOM } from 'jsdom';
+import { readPdfText } from 'pdf-text-reader';
 
 const tokenCount = 8192;
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
-const linkedScrape = async (link) => {
-	// eslint-disable-next-line no-useless-catch
-	try {
-		const { data } = await axios.get(link + '/details/skills/');
-		const dom = new JSDOM(data, {
-			runScripts: 'dangerously',
-			resources: 'usable'
-		});
-		const { document } = dom.window;
-		const skills = [];
-		const skillDivs = document.getElementsByClassName(
-			'FxPSDEjJBPtqlEVKDESyadlywZIWYtxnhGnhmaMHJqpfPnZpaAmnDIzFpQOnOjsnKpATdzJTSOiJwOpkqNxlQfSYZTqKCSpUpimApSyNhZgug'
-		);
-		for (let i = 0; i < skillDivs.length; i++) {
-			skills.push(skillDivs[i].textContent);
-		}
-		console.log(skills);
-	} catch (error) {
-		throw error;
-	}
-};
+async function csvExtract() {
+	const pdfText = await readPdfText({ url: 'Oliver_Flint_Rose_CV_2024.pdf' });
+	return pdfText;
+}
 
 export const _groqCall = async (career, checked) => {
-	//linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
+	console.log(await csvExtract());
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -88,7 +70,7 @@ export const _groqCall = async (career, checked) => {
 };
 
 export const _groqRefresh = async (career, checked) => {
-	//linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
+	console.log(csvExtract());
 	return groq.chat.completions.create({
 		//
 		// Required parameters
@@ -149,7 +131,7 @@ export const actions = {
 		const promptInput = data.get('promptInput');
 		const checked = data.get('checked');
 
-		console.log(data);
+		//console.log(data);
 
 		let response;
 
@@ -171,7 +153,7 @@ export const actions = {
 
 		let jsonResponse = JSON.parse(message);
 
-		console.log(jsonResponse);
+		//console.log(jsonResponse);
 
 		return { success: true, groq: jsonResponse };
 	},
