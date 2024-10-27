@@ -33,16 +33,16 @@
 	}
 </script>
 
-<div class="flex flex-row items-center">
-	<img class="w-28" src="/favicon.png" alt="FutureFocus logo" />
-	<p class="text-4xl">FutureFocus</p>
+<div class="flex flex-row items-center h-24 bg-primary">
+	<img class="w-20" src="/favicon.png" alt="FutureFocus logo" />
+	<p class="text-4xl text-white">FutureFocus</p>
 </div>
 
 <div class="flex flex-col items-center gap-y-4">
 	{#if formLoading}
 		<p>Loading...</p>
 	{/if}
-	<div class="">
+	<div class="p-4">
 		<form
 			use:enhance={({ formData }) => {
 				formData.append('promptInput', promptInput);
@@ -67,7 +67,7 @@
 			method="post"
 		>
 			<div class="flex flex-col">
-				<p>Enter prompt</p>
+				<p class="font-futura text-white pb-4 text-center text-4xl">Profession:</p>
 				<input
 					class="twinput focus:shadow-outline"
 					bind:value={promptInput}
@@ -80,7 +80,7 @@
 	</div>
 
 	<div class="flex flex-col">
-		<label for="">
+		<label class="check" for="">
 			<input
 				on:change={() => {
 					experienceChecked('beginner');
@@ -92,7 +92,7 @@
 			/>
 			Beginner
 		</label>
-		<label for="">
+		<label class="check" for="">
 			<input
 				on:change={() => {
 					experienceChecked('intermediate');
@@ -104,7 +104,7 @@
 			/>
 			Intermediate
 		</label>
-		<label for="">
+		<label class="check" for="">
 			<input
 				on:change={() => {
 					experienceChecked('professional');
@@ -200,13 +200,26 @@
 	</div>
 </div>
 
+<footer class="p-4 bg-primary mt-auto">
+	<a href="https://groq.com" target="_blank" rel="noopener noreferrer">
+		<img class="bottom-0 h-16" id="groq-logo"
+		  src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg"
+		  alt="Powered by Groq for fast inference."
+		/>
+	  </a>
+</footer>
+
 <style lang="postcss">
 	.twbtn {
-		@apply rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700;
+		@apply rounded bg-primary px-4 py-2 font-bold text-white hover:bg-[#161616];
 	}
 
 	.twinput {
 		@apply w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none;
+	}
+
+	.check {
+		@apply text-xl text-white;
 	}
 
 	.term {

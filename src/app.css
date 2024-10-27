@@ -12,14 +12,9 @@
         flex-direction: column;
         background-color: #636363;
     }
+}
 
-    footer {
-        background-color: #323232;
-        margin-top: auto;
-        padding: 1rem;
-    }
-    #groq-logo {
-        bottom: 0;
-        height: 60px;
-    }
+@font-face {
+    font-family: 'Futura';
+    src: url('/futura_book.ttf');
 }

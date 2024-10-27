@@ -103,7 +103,7 @@ export const _groqRefresh = async (career, checked) => {
 			{
 				role: 'system',
 				content:
-					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and previous pieces of advice they have completed.\nRespond in the form of a json file with three separate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided. They arrays must only consist of string.'
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and previous pieces of advice they have completed.\nRespond in the form of a json file with three separate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided. They arrays must only consist of string. Do not under any circumstances return arrays of anything other than strings.'
 			},
 			// Set a user message for the assistant to respond to.
 			{
