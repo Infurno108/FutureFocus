@@ -66,19 +66,29 @@ export const actions = {
 		const promptInput = data.get('promptInput');
 		const checked = data.get('checked');
 
-		const response = await _groqCall(promptInput, checked);
+		let response;
 
-		if (response?.error)
+		try {
+			response = await _groqCall(promptInput, checked);
+		}
+		catch (error) {
+			console.log('groq exception, trying again');
+			response = await _groqCall(promptInput, checked);
 			return { success: false };
+		}
 
 		let message = response.choices[0].message.content;
 
 		let jsonResponse = JSON.parse(message);
 
-		return { success: true, response: jsonResponse };
+		console.log(jsonResponse);
+
+		return { success: true, groq: jsonResponse };
 	},
 	regenerateList: async ({ request }) => {
 		const data = await request.formData();
 		console.log(data);
+
+		return { success: true };
 	}
 };

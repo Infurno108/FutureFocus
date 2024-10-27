@@ -1,180 +1,90 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
+	import Groq from 'groq-sdk';
 
 	export let form;
 
-	/**
-	 * @type {any}
-	 */
-	let promptInput = '';
-
-	let beginnerChecked = false;
-	let intermediateChecked = false;
-	let professionalChecked = false;
-
-	let shortTermChecked = [];
-	let midTermChecked = [];
-	let longTermChecked = [];
-
-	/**
-	 * @param {string} checkbox
-	 */
-	function checkboxChanged(checkbox) {
-		if (checkbox == 'beginner') {
-			beginnerChecked = true;
-			intermediateChecked = false;
-			professionalChecked = false;
-		} else if (checkbox == 'intermediate') {
-			beginnerChecked = false;
-			intermediateChecked = true;
-			professionalChecked = false;
-		} else if (checkbox == 'professional') {
-			beginnerChecked = false;
-			intermediateChecked = false;
-			professionalChecked = true;
-		}
-	}
+	let checklistStates = [];
 </script>
 
 <div>
-	<!-- Header -->
-	<div class="flex flex-row items-center">
-		<img class="w-28" src="/favicon.png" alt="FutureFocus logo" />
-		<p class="text-6xl">FutureFocus</p>
+	<div>
+		<form action="?/submitPrompt" method="post">
+			<label for="promptInput">
+				Enter prompt
+				<input placeholder="i just lost my dawg" type="text" name="promptInput" id="promptInput" />
+			</label>
+			<button>Submit</button>
+		</form>
 	</div>
-	<!-- Main page content -->
-	<div class="grid justify-center justify-items-center gap-4">
-		<!-- Prompt input -->
-		<div>
-			<form
-				use:enhance={({ formData }) => {
-					formData.append('promptInput', promptInput);
 
-					if (beginnerChecked) formData.append('checked', 'beginner');
-					else if (intermediateChecked) formData.append('checked', 'intermediate');
-					else if (professionalChecked) formData.append('checked', 'professional');
-
-					return async ({ result }) => {
-						if (result?.success) {
-							shortTermChecked = [];
-							midTermChecked = [];
-							longTermChecked = [];
-
-							result.response['shortTerm'].forEach((value, index) => {
-								shortTermChecked[index] = false;
-							});
-
-							result.response['midTerm'].forEach((value, index) => {
-								midTermChecked[index] = false;
-							});
-
-							result.response['longTerm'].forEach((value, index) => {
-								longTermChecked[index] = false;
-							});
-
-							console.log(result);
+	{#if form?.groq}
+		<p>Short Term</p>
+		{#each form.groq['shortTerm'] as item}
+			<div class="flex flex-row">
+				<input
+					on:change={(e) => {
+						if (e.target.checked) {
+							if (!checklistStates.includes(item)) checklistStates.push(item);
+						} else {
+							checklistStates = checklistStates.filter((it) => it !== item);
 						}
-
-						applyAction(result);
-					};
-				}}
-				id="submitPromptForm"
-				action="?/submitPrompt"
-				method="post"
-			>
-				<label for="promptInput"> </label>
-				<input
-					bind:value={promptInput}
-					class="twinput focus:shadow-outline"
-					id="promptInput"
-					placeholder="i just lost my dawg"
-					type="text"
-				/>
-			</form>
-		</div>
-		<!-- Checkboxes -->
-		<div class="grid">
-			<div>
-				<input
-					on:change={() => {
-						checkboxChanged('beginner');
 					}}
-					checked={beginnerChecked}
 					type="checkbox"
-					name="beginner"
-					id="beginner"
+					name=""
+					id=""
 				/>
-				<label class="text-2xl" for="beginner">Beginner</label>
+				<p>{item}</p>
 			</div>
-			<div>
+		{/each}
+		<p>Mid Term</p>
+		{#each form.groq['midTerm'] as item}
+			<div class="flex flex-row">
 				<input
-					on:change={() => {
-						checkboxChanged('intermediate');
+					on:change={(e) => {
+						if (e.target.checked) {
+							if (!checklistStates.includes(item)) checklistStates.push(item);
+						} else {
+							checklistStates = checklistStates.filter((it) => it !== item);
+						}
 					}}
-					checked={intermediateChecked}
 					type="checkbox"
-					name="intermediate"
-					id="intermediate"
+					name=""
+					id=""
 				/>
-				<label class="text-2xl" for="intermediate">Intermediate</label>
+				<p>{item}</p>
 			</div>
-			<div>
+		{/each}
+		<p>Long Term</p>
+		{#each form.groq['longTerm'] as item}
+			<div class="flex flex-row">
 				<input
-					on:change={() => {
-						checkboxChanged('professional');
+					on:change={(e) => {
+						if (e.target.checked) {
+							if (!checklistStates.includes(item)) checklistStates.push(item);
+						} else {
+							checklistStates = checklistStates.filter((it) => it !== item);
+						}
 					}}
-					checked={professionalChecked}
 					type="checkbox"
-					name="professional"
-					id="professional"
+					name=""
+					id=""
 				/>
-				<label class="text-2xl" for="professional">Professional</label>
+				<p>{item}</p>
 			</div>
-		</div>
-		<!-- Submit button -->
-		<div class="grid">
-			<button class="twbutton" type="submit" form="submitPromptForm">Generate</button>
-		</div>
-
-		<!-- Checklists -->
-		{#if form?.success}
-			<div class="grid justify-center">
-				<div class="grid">
-					<p>Short Term</p>
-					{#each form?.response['shortTerm'] as listItem, i}
-						<label><input bind:checked={shortTermChecked[i]} type="checkbox" />{listItem}</label>
-					{/each}
-				</div>
-
-				<div class="grid">
-					<p>Mid Term</p>
-					{#each form?.response['midTerm'] as listItem, i}
-						<label><input bind:checked={midTermChecked[i]} type="checkbox" />{listItem}</label>
-					{/each}
-				</div>
-
-				<div class="grid">
-					<p>Long Term</p>
-					{#each form?.response['longTerm'] as listItem, i}
-						<label><input bind:checked={longTermChecked[i]} type="checkbox" />{listItem}</label>
-					{/each}
-				</div>
-			</div>
-		{/if}
-
-		<div class="">
-			<form
-				use:enhance={({ formData }) => {
-					formData.append('shortTermChecked', JSON.stringify(shortTermChecked));
-					formData.append('midTermChecked', JSON.stringify(midTermChecked));
-					formData.append('longTermChecked', JSON.stringify(longTermChecked));
-				}}
-				action="?/regenerateList"
-				method="post"
-			>
-				<button class="twbutton">Regenerate</button>
-			</form>
-		</div>
+		{/each}
+	{/if}
+	<div>
+		<form
+			use:enhance={({formData}) => {
+				formData.append('checklist', JSON.stringify(checklistStates));
+				checklistStates = [];
+			}}
+			action="?/regenerateList"
+			method="post"
+		>
+			<button>Regenerate</button>
+		</form>
 	</div>
 </div>
 
