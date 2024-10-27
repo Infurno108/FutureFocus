@@ -106,7 +106,7 @@
 
 	{#if form?.groq}
 		<div>
-			<p>Short Term</p>
+			<p class="term">Short Term</p>
 			{#each form.groq['shortTerm'] as item}
 				<div class="flex flex-row">
 					<input
@@ -124,7 +124,7 @@
 					<p>{item}</p>
 				</div>
 			{/each}
-			<p>Mid Term</p>
+			<p class="term">Mid Term</p>
 			{#each form.groq['midTerm'] as item}
 				<div class="flex flex-row">
 					<input
@@ -142,7 +142,7 @@
 					<p>{item}</p>
 				</div>
 			{/each}
-			<p>Long Term</p>
+			<p class="term">Long Term</p>
 			{#each form.groq['longTerm'] as item}
 				<div class="flex flex-row">
 					<input
@@ -184,5 +184,9 @@
 
 	.twinput {
 		@apply w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none;
+	}
+
+	.term {
+		@apply text-xl;
 	}
 </style>
