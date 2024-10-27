@@ -19,11 +19,4 @@ resource "aws_instance" "app_server" {
 
   tags = {
     Name = "FutureFocus"
-  }
-  resource "github_repository" "FutureFocus" {
-    name        = "FutureFocus"
-    description = "My awesome codebase"
-
-    visibility = "public"
-  }
 }
