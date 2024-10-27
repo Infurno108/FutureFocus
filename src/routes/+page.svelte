@@ -211,7 +211,7 @@
 			</div>
 
 			<div>
-				<div class="rounded-3xl from-white bg-gradient-to-r from-slate-600 to-[#424952] p-4">
+				<div class="rounded-3xl from-white bg-gradient-to-r from-slate-900 to-[#424952] p-4">
 					<p class="font-futura pb-4 text-center h-20 text-3xl text-white">Long Term (5+ Years)</p>
 					<div class="flex flex-col gap-4">
 						{#each form.groq['longTerm'] as item}
