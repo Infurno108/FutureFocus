@@ -34,7 +34,7 @@ export const _groqCall = async (career, checked) => {
 	return groq.chat.completions.create({
 		//
 		// Required parameters
-		response_format: {
+		response_format: {s
 			type: 'json_object'
 		},
 		//
