@@ -14,6 +14,8 @@
 
 	let checklistStates = [];
 
+	let showInput = true;
+
 	let formLoading = false;
 
 	function experienceChecked(experience) {
@@ -42,83 +44,88 @@
 	{#if formLoading}
 		<p>Loading...</p>
 	{/if}
-	<div class="p-4">
-		<form
-			use:enhance={({ formData }) => {
-				formData.append('promptInput', promptInput);
 
-				initialPrompt.update((n) => (n = promptInput));
+	{#if showInput}
+		<div class="p-4">
+			<form
+				use:enhance={({ formData }) => {
+					formData.append('promptInput', promptInput);
 
-				if (beginnerChecked) formData.append('checked', 'beginner');
-				else if (intermediateChecked) formData.append('checked', 'intermediate');
-				else formData.append('checked', 'professional');
+					initialPrompt.update((n) => (n = promptInput));
 
-				formLoading = true;
+					if (beginnerChecked) formData.append('checked', 'beginner');
+					else if (intermediateChecked) formData.append('checked', 'intermediate');
+					else formData.append('checked', 'professional');
 
-				checklistStates = [];
+					formLoading = true;
 
-				return ({ update }) => {
-					update({ invalidateAll: true }).finally(async () => {
-						formLoading = false;
-					});
-				};
-			}}
-			action="?/submitPrompt"
-			method="post"
-		>
-			<div class="flex flex-col">
+					showInput = false;
+
+					checklistStates = [];
+
+					return ({ update }) => {
+						update({ invalidateAll: true }).finally(async () => {
+							formLoading = false;
+						});
+					};
+				}}
+				action="?/submitPrompt"
+				method="post"
+			>
+				<div class="flex flex-col">
+					<input
+						class="twinput focus:shadow-outline"
+						bind:value={promptInput}
+						placeholder="Enter career path"
+						type="text"
+					/>
+					<button class="twbtn mt-4">Generate</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="flex flex-col">
+			<label class="check" for="">
 				<input
-					class="twinput focus:shadow-outline"
-					bind:value={promptInput}
-					placeholder="Enter career path"
-					type="text"
+					on:change={() => {
+						experienceChecked('beginner');
+					}}
+					checked={beginnerChecked}
+					type="checkbox"
+					name=""
+					id=""
 				/>
-				<button class="twbtn mt-4">Generate</button>
-			</div>
-		</form>
-	</div>
-
-	<div class="flex flex-col">
-		<label class="check" for="">
-			<input
-				on:change={() => {
-					experienceChecked('beginner');
-				}}
-				checked={beginnerChecked}
-				type="checkbox"
-				name=""
-				id=""
-			/>
-			Beginner
-		</label>
-		<label class="check" for="">
-			<input
-				on:change={() => {
-					experienceChecked('intermediate');
-				}}
-				checked={intermediateChecked}
-				type="checkbox"
-				name=""
-				id=""
-			/>
-			Intermediate
-		</label>
-		<label class="check" for="">
-			<input
-				on:change={() => {
-					experienceChecked('professional');
-				}}
-				checked={professionalChecked}
-				type="checkbox"
-				name=""
-				id=""
-			/>
-			Professional
-		</label>
-	</div>
+				Beginner
+			</label>
+			<label class="check" for="">
+				<input
+					on:change={() => {
+						experienceChecked('intermediate');
+					}}
+					checked={intermediateChecked}
+					type="checkbox"
+					name=""
+					id=""
+				/>
+				Intermediate
+			</label>
+			<label class="check" for="">
+				<input
+					on:change={() => {
+						experienceChecked('professional');
+					}}
+					checked={professionalChecked}
+					type="checkbox"
+					name=""
+					id=""
+				/>
+				Professional
+			</label>
+		</div>
+	{/if}
 
 	{#if form?.groq}
-		<div class="flex w-3/4 flex-col gap-6">
+		<div class="flex w-3/4 flex-col gap-6 mt-8">
 			<div
 				class="flex flex-row items-center justify-center border-4 border-dotted border-[#ff13f0] bg-[#41fdfe]"
 			>
@@ -177,9 +184,8 @@
 			</div>
 
 			<div>
-				
-				<div class="bg-gray-700 p-4 rounded-3xl">
-					<p class="text-3xl font-futura text-center text-white pb-4">Long Term</p>
+				<div class="rounded-3xl bg-gray-700 p-4">
+					<p class="font-futura pb-4 text-center text-3xl text-white">Long Term</p>
 					<div class="flex flex-col gap-4">
 						{#each form.groq['longTerm'] as item}
 							<div class="bg-primary flex flex-row gap-2 rounded-full px-6 py-4">
@@ -195,7 +201,7 @@
 									name=""
 									id=""
 								/>
-								<p class="font-futura text-white text-xl">{item}</p>
+								<p class="font-futura text-xl text-white">{item}</p>
 							</div>
 						{/each}
 					</div>
