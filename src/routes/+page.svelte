@@ -1,5 +1,7 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
+	import {get} from 'svelte/store';
+	import { initialPrompt } from '$lib/store.js';
 
 	export let form;
 
@@ -33,6 +35,8 @@
 		<form
 			use:enhance={({ formData }) => {
 				formData.append('promptInput', promptInput);
+
+				initialPrompt.update(n => n = promptInput);
 
 				if (beginnerChecked) formData.append('checked', 'beginner');
 				else if (intermediateChecked) formData.append('checked', 'intermediate');
@@ -154,6 +158,7 @@
 		<form
 			use:enhance={({ formData }) => {
 				formData.append('checklist', JSON.stringify(checklistStates));
+				formData.append('initialPrompt', get(initialPrompt));
 				checklistStates = [];
 			}}
 			action="?/regenerateList"
