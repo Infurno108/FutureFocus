@@ -67,11 +67,10 @@
 			method="post"
 		>
 			<div class="flex flex-col">
-				<p class="font-futura pb-4 text-center text-4xl text-white">Profession:</p>
 				<input
 					class="twinput focus:shadow-outline"
 					bind:value={promptInput}
-					placeholder="i just lost my dawg"
+					placeholder="Enter career path"
 					type="text"
 				/>
 				<button class="twbtn mt-4">Generate</button>
