@@ -3,7 +3,14 @@ export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
-		extend: {}
+		extend: {
+			fontFamily: {
+				'futura': 'Futura',
+			},
+			colors: {
+				'primary': '#323232',
+			}
+		},
 	},
 
 	plugins: []

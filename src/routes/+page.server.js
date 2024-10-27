@@ -85,7 +85,7 @@ export const _groqRefresh = async (career, checked) => {
 			{
 				role: 'system',
 				content:
-					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and previous pieces of advice they have completed.\nRespond in the form of a json file with three separate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided.'
+					'You are a model designed to tell the user the future steps they should take in order to be more successful in their chosen career path. You will split up your advice into three categories: short term (1 - 2 years), mid term (3 - 5 years(, long term (5+ years). They will provide the career they want, and previous pieces of advice they have completed.\nRespond in the form of a json file with three separate arrays, one for each category of advice. The arrays keys should be: shortTerm, midTerm, and longTerm.\nDo not include any information regarding the prompt, only the steps the user should take. Do not use any other keys in the json file then the ones provided. They arrays must only consist of string. Do not under any circumstances return arrays of anything other than strings. Each array should have at least four to five items.'
 			},
 			// Set a user message for the assistant to respond to.
 			{
@@ -135,14 +135,18 @@ export const actions = {
 
 		let response;
 
-		try {
-			response = await _groqCall(promptInput, checked);
-			//console.log(response);
-		} catch (error) {
-			console.log('groq exception, trying again');
-			response = await _groqCall(promptInput, checked);
-			console.log(response);
-			return { success: false };
+		let attempts = 10;
+		while (attempts > 0) {
+			try {
+				response = await _groqCall(promptInput, checked);
+				if(response.choices[0].message)
+					break;
+				attempts--;
+			}
+			catch (error) {
+				console.log('groq excepted');
+				attempts--;
+			}
 		}
 
 		let message = response.choices[0].message.content;
@@ -161,14 +165,16 @@ export const actions = {
 
 		let response;
 
-		try {
-			response = await _groqRefresh(initialPrompt, checklist);
-			console.log(response);
-		} catch (error) {
-			console.log('groq exception, trying again');
-			response = await _groqCall(initialPrompt, checklist);
-			console.log(response);
-			return { success: false };
+		let attempts = 5;
+		while(attempts > 0) {
+			try {
+				response = await _groqRefresh(initialPrompt, checklist);
+				console.log(response);
+				break;
+			} catch (error) {
+				console.log('groq exception, trying again');
+				attempts--;
+			}
 		}
 
 		let message = response.choices[0].message.content;
