@@ -1,7 +1,20 @@
-output "instance_ami" {
-  value = aws_instance.ubuntu.ami
+data "aws_ami" "ubuntu" {
+
+    most_recent = true
+
+    filter {
+        name   = "FutureFocus"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    }
+
+    filter {
+        name = "virtualization-type"
+        values = ["hvm"]
+    }
+
+    owners = ["099720109477"]
 }
 
-output "instance_arn" {
-  value = aws_instance.ubuntu.arn
+output "test" {
+  value = data.aws_ami.ubuntu
 }
