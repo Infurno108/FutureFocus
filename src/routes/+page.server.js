@@ -1,7 +1,6 @@
 import Groq from 'groq-sdk';
 import fs from 'fs';
-import { readPdfText } from 'pdf-text-reader';
-//import * as pdfjs from 'pdfjs-dist';
+// import { PdfReader } from 'pdfreader';
 
 const tokenCount = 8192;
 
@@ -9,10 +8,6 @@ const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
-async function csvExtract(file) {
-	const pdfText = await readPdfText(file);
-	return pdfText;
-}
 
 export const _groqCall = async (career, checked) => {
 	return groq.chat.completions.create({
@@ -134,9 +129,6 @@ export const actions = {
 
 		console.log(data);
 		console.log(file);
-
-		//let resume = csvExtract(file);
-		//console.log(resume)
 
 		let response;
 
