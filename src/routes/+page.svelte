@@ -2,6 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { get } from 'svelte/store';
 	import { initialPrompt } from '$lib/store.js';
+	import { onMount } from 'svelte';
 
 	export let form;
 
@@ -12,6 +13,8 @@
 	let professionalChecked = false;
 
 	let checklistStates = [];
+
+	let formLoading = false;
 
 	function experienceChecked(experience) {
 		if (experience === 'beginner') {
@@ -36,6 +39,9 @@
 </div>
 
 <div class="flex flex-col items-center gap-y-4">
+	{#if formLoading}
+		<p>Loading...</p>
+	{/if}
 	<div class="">
 		<form
 			use:enhance={({ formData }) => {
@@ -47,7 +53,15 @@
 				else if (intermediateChecked) formData.append('checked', 'intermediate');
 				else formData.append('checked', 'professional');
 
+				formLoading = true;
+
 				checklistStates = [];
+
+				return ({ update }) => {
+					update({ invalidateAll: true }).finally(async () => {
+						formLoading = false;
+					});
+				};
 			}}
 			action="?/submitPrompt"
 			method="post"
@@ -167,7 +181,16 @@
 			use:enhance={({ formData }) => {
 				formData.append('checklist', JSON.stringify(checklistStates));
 				formData.append('initialPrompt', get(initialPrompt));
+
+				formLoading = true;
+
 				checklistStates = [];
+
+				return ({ update }) => {
+					update({ invalidateAll: true }).finally(async () => {
+						formLoading = false;
+					});
+				};
 			}}
 			action="?/regenerateList"
 			method="post"
