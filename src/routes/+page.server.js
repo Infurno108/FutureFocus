@@ -4,6 +4,8 @@ import axios from 'axios';
 import fs from 'fs';
 import { JSDOM } from 'jsdom';
 
+const tokenCount = 8192;
+
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const groq = new Groq({ apiKey: config.GROQ_API_KEY });
 
@@ -30,11 +32,11 @@ const linkedScrape = async (link) => {
 };
 
 export const _groqCall = async (career, checked) => {
-	linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
+	//linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
 	return groq.chat.completions.create({
 		//
 		// Required parameters
-		response_format: {s
+		response_format: {
 			type: 'json_object'
 		},
 		//
@@ -68,7 +70,7 @@ export const _groqCall = async (career, checked) => {
 
 		// The maximum number of tokens to generate. Requests can use up to
 		// 2048 tokens shared between prompt and completion.
-		max_tokens: 4096,
+		max_tokens: tokenCount,
 
 		// Controls diversity via nucleus sampling: 0.5 means half of all
 		// likelihood-weighted options are considered.
@@ -124,7 +126,7 @@ export const _groqRefresh = async (career, checked) => {
 
 		// The maximum number of tokens to generate. Requests can use up to
 		// 2048 tokens shared between prompt and completion.
-		max_tokens: 4096,
+		max_tokens: tokenCount,
 
 		// Controls diversity via nucleus sampling: 0.5 means half of all
 		// likelihood-weighted options are considered.
