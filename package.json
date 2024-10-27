@@ -38,10 +38,16 @@
 		"http": "^0.0.1-security",
 		"jsdom": "^25.0.1",
 		"package.json": "^2.0.1",
+<<<<<<< HEAD
 		"pdf-parse": "^1.1.1",
 		"pdf-text-reader": "^5.1.0",
 		"pdf2json": "^3.1.4",
 		"pdfjs-dist": "^4.7.76",
 		"pdfreader": "^3.0.5"
+=======
+		"pdf-text-reader": "^5.1.0",
+		"pdf2json": "^3.1.4",
+		"pdfjs-dist": "^4.7.76"
+>>>>>>> dbd1119e8de87047b100aa1e40d2722530f5abd3
 	}
 }
