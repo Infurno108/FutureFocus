@@ -86,7 +86,7 @@ export const _groqCall = async (career, checked) => {
 };
 
 export const _groqRefresh = async (career, checked) => {
-	linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
+	//linkedScrape('https://www.linkedin.com/in/flint-rose-8826a11ab/');
 	return groq.chat.completions.create({
 		//
 		// Required parameters
